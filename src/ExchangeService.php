@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App;
 
 /**
- * Serviço para conversão de moedas.
+ * Currency exchange service.
  */
 class ExchangeService
 {
@@ -17,13 +17,13 @@ class ExchangeService
     ];
 
     /**
-     * Converte um valor de uma moeda para outra.
+     * Convert value from one currency to another.
      */
     public function convert(string $amount, string $from, string $to, string $rate): array
     {
         $this->validateAmount($amount);
-        $this->validateCurrency($from, 'moeda de origem');
-        $this->validateCurrency($to, 'moeda de destino');
+        $this->validateCurrency($from, 'source currency');
+        $this->validateCurrency($to, 'target currency');
         $this->validateRate($rate);
 
         $amountFloat = (float) $amount;
@@ -40,12 +40,12 @@ class ExchangeService
     private function validateAmount(string $amount): void
     {
         if (!is_numeric($amount)) {
-            throw new \InvalidArgumentException('Valor deve ser numérico');
+            throw new \InvalidArgumentException('Amount must be numeric');
         }
 
         $amountFloat = (float) $amount;
         if ($amountFloat <= 0) {
-            throw new \InvalidArgumentException('Valor deve ser maior que zero');
+            throw new \InvalidArgumentException('Amount must be greater than zero');
         }
     }
 
@@ -53,19 +53,19 @@ class ExchangeService
     {
         $currency = strtoupper($currency);
         if (!in_array($currency, self::SUPPORTED_CURRENCIES, true)) {
-            throw new \InvalidArgumentException("Moeda {$context} não suportada");
+            throw new \InvalidArgumentException("{$context} not supported");
         }
     }
 
     private function validateRate(string $rate): void
     {
         if (!is_numeric($rate)) {
-            throw new \InvalidArgumentException('Taxa de câmbio deve ser numérica');
+            throw new \InvalidArgumentException('Exchange rate must be numeric');
         }
 
         $rateFloat = (float) $rate;
         if ($rateFloat <= 0) {
-            throw new \InvalidArgumentException('Taxa de câmbio deve ser maior que zero');
+            throw new \InvalidArgumentException('Exchange rate must be greater than zero');
         }
     }
 } 
