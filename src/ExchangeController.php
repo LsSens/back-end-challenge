@@ -1,4 +1,15 @@
 <?php
+/**
+ * Exchange Controller.
+ *
+ * PHP version 8.3
+ *
+ * @category Challenge
+ * @package  Back-end
+ * @author   Lucas Sens <lucassousase@gmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/apiki/back-end-challenge
+ */
 
 declare(strict_types=1);
 
@@ -6,18 +17,29 @@ namespace App;
 
 /**
  * Currency exchange controller.
+ *
+ * @category Challenge
+ * @package  Back-end
+ * @author   Lucas Sens <lucassousase@gmail.com>
+ * @license  http://opensource.org/licenses/MIT MIT
+ * @link     https://github.com/apiki/back-end-challenge
  */
 class ExchangeController
 {
-    private ExchangeService $exchangeService;
+    private ExchangeService $_exchangeService;
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
-        $this->exchangeService = new ExchangeService();
+        $this->_exchangeService = new ExchangeService();
     }
 
     /**
      * Process currency exchange request.
+     *
+     * @return void
      */
     public function handleRequest(): void
     {
@@ -25,14 +47,14 @@ class ExchangeController
         $path = parse_url($uri, PHP_URL_PATH);
         
         if (!$path) {
-            $this->sendErrorResponse('Invalid URL', 400);
+            $this->_sendErrorResponse('Invalid URL', 400);
             return;
         }
 
         $segments = explode('/', trim($path, '/'));
         
         if (count($segments) !== 5 || $segments[0] !== 'exchange') {
-            $this->sendErrorResponse('Invalid URL format', 400);
+            $this->_sendErrorResponse('Invalid URL format', 400);
             return;
         }
 
@@ -42,23 +64,38 @@ class ExchangeController
         $rate = $segments[4];
 
         try {
-            $result = $this->exchangeService->convert($amount, $from, $to, $rate);
-            $this->sendSuccessResponse($result);
+            $result = $this->_exchangeService->convert($amount, $from, $to, $rate);
+            $this->_sendSuccessResponse($result);
         } catch (\InvalidArgumentException $e) {
-            $this->sendErrorResponse($e->getMessage(), 400);
+            $this->_sendErrorResponse($e->getMessage(), 400);
         } catch (\Exception $e) {
-            $this->sendErrorResponse('Internal server error', 500);
+            $this->_sendErrorResponse('Internal server error', 500);
         }
     }
 
-    private function sendSuccessResponse(array $data): void
+    /**
+     * Send success response.
+     *
+     * @param array $data Response data
+     *
+     * @return void
+     */
+    private function _sendSuccessResponse(array $data): void
     {
         http_response_code(200);
         header('Content-Type: application/json');
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
     }
 
-    private function sendErrorResponse(string $message, int $statusCode): void
+    /**
+     * Send error response.
+     *
+     * @param string $message    Error message
+     * @param int    $statusCode HTTP status code
+     *
+     * @return void
+     */
+    private function _sendErrorResponse(string $message, int $statusCode): void
     {
         http_response_code($statusCode);
         header('Content-Type: application/json');

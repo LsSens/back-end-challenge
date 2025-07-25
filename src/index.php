@@ -1,6 +1,10 @@
 <?php
 /**
- * Back-end Challenge
+ * Back-end Challenge.
+ *
+ * PHP version 8.3
+ *
+ * Este será o arquivo chamado na execução dos testes automátizados.
  *
  * @category Challenge
  * @package  Back-end
