@@ -51,7 +51,6 @@ class ExchangeService
 
     private function validateCurrency(string $currency, string $context): void
     {
-        $currency = strtoupper($currency);
         if (!in_array($currency, self::SUPPORTED_CURRENCIES, true)) {
             throw new \InvalidArgumentException("{$context} not supported");
         }

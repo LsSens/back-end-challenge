@@ -1,14 +1,10 @@
 <?php
 /**
- * Back-end Challenge.
- *
- * PHP version 7.4
- *
- * Este será o arquivo chamado na execução dos testes automátizados.
+ * Back-end Challenge
  *
  * @category Challenge
  * @package  Back-end
- * @author   Seu Nome <seu-email@seu-provedor.com>
+ * @author   Lucas Sens <lucassousase@gmail.com>
  * @license  http://opensource.org/licenses/MIT MIT
  * @link     https://github.com/apiki/back-end-challenge
  */
